@@ -14,39 +14,30 @@ import pymel.core as pm
 
 from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 
-# mgear
-import mgear
-from mgear.core import pyqt
-from mgear.core import callbackManager
-
-from mgear.vendor.Qt import QtGui
-from mgear.vendor.Qt import QtCore
-from mgear.vendor.Qt import QtOpenGL
-from mgear.vendor.Qt import QtWidgets
+import anim_picker.core.pyqt as pyqt
+import anim_picker.core.callbackManager as callbackManager
 
 # debugging
-# from PySide2 import QtGui
-# from PySide2 import QtCore
-# from PySide2 import QtOpenGL
-# from PySide2 import QtWidgets
+from PySide2 import QtGui
+from PySide2 import QtCore
+from PySide2 import QtOpenGL
+from PySide2 import QtWidgets
 
 # module
-from . import version
-from . import picker_node
-from .widgets import basic
-from .widgets import picker_widgets
-from .widgets import overlay_widgets
+import anim_picker.core.picker_node as picker_node
+import anim_picker.widgets.basic as basic
+import anim_picker.widgets.picker_widgets as picker_widgets
+import anim_picker.widgets.overlay_widgets as overlay_widgets
 
-from .handlers import __EDIT_MODE__
-from .handlers import __SELECTION__
+from anim_picker.handlers import __EDIT_MODE__
+from anim_picker.handlers import __SELECTION__
+
 
 # constants -------------------------------------------------------------------
 try:
     _CLIPBOARD
 except NameError as e:
     _CLIPBOARD = []
-
-ANIM_PICKER_TITLE = "mGear {m_version} | Anim Picker {ap_version}"
 
 # maya color index
 MAYA_OVERRIDE_COLOR = {
@@ -88,9 +79,6 @@ GROUPBOX_BG_CSS = """QGroupBox {{
       background-color: rgba{color};
       border: 0px solid rgba{color};
 }}"""
-
-
-_mgear_version = mgear.getVersion()
 
 
 # =============================================================================
@@ -1299,7 +1287,7 @@ class ContextMenuTabWidget(QtWidgets.QTabWidget):
 # class MainDockWindow(QtWidgets.QWidget):
 class MainDockWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
     __OBJ_NAME__ = "ctrl_picker_window"
-    __TITLE__ = ANIM_PICKER_TITLE.format(m_version=_mgear_version, ap_version=version.version)
+    __TITLE__ = 'Animation Picker'
 
     def __init__(self,
                  parent=None,
@@ -1941,6 +1929,7 @@ def load(edit=False, dockable=True):
     # parented to Maya UI
     # TODO: Dockable breaks the interface when docks. For the moment this
     # option is not available from the menu
+    dockable = False if edit else dockable  # only breaks when editing
     if dockable:
         ANIM_PKR_UI.show(dockable=True)
     else:

@@ -12,9 +12,8 @@ from maya import cmds
 import pymel.core as pm
 
 # anim picker
-import mgear.anim_picker
-from .handlers import maya_handlers
-from .handlers import file_handlers
+import anim_picker.handlers.maya_handlers as maya_handlers
+import anim_picker.handlers.file_handlers as file_handlers
 
 
 def get_nodes():
@@ -303,7 +302,7 @@ class DataNode(object):
         '''Set node data version attribute
         '''
         if not version:
-            version = mgear.anim_picker.version.version
+            version = '1.3.0'
 
         attrPlug = "{}.{}".format(self.name, self.__VERSION_ATTR__)
         cmds.setAttr(attrPlug, k=False, l=False)

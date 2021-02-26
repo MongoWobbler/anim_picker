@@ -3,7 +3,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import unicode_literals
 
-
 import re
 import copy
 import uuid
@@ -13,22 +12,19 @@ from math import sin
 from math import cos
 
 import maya.cmds as cmds
+import anim_picker.core.pyqt as pyqt
 
-from mgear.core import pyqt
-from mgear.vendor.Qt import QtGui
-from mgear.vendor.Qt import QtCore
-from mgear.vendor.Qt import QtWidgets
+# Qt
+from PySide2 import QtGui
+from PySide2 import QtCore
+from PySide2 import QtWidgets
 
-# debugging
-# from PySide2 import QtGui
-# from PySide2 import QtCore
-# from PySide2 import QtWidgets
+import anim_picker.widgets.basic as basic
+from anim_picker.handlers import __EDIT_MODE__
+from anim_picker.handlers import __SELECTION__
+import anim_picker.handlers.python_handlers as python_handlers
+import anim_picker.handlers.maya_handlers as maya_handlers
 
-from mgear.anim_picker.widgets import basic
-from mgear.anim_picker.handlers import (__EDIT_MODE__,
-                                        __SELECTION__,
-                                        python_handlers,
-                                        maya_handlers)
 
 # constants -------------------------------------------------------------------
 SCRIPT_DOC_HEADER = \
@@ -949,7 +945,7 @@ class ItemOptionsWindow(QtWidgets.QMainWindow):
         rotate_angle = self.rotate_sb.value()
 
         # Build kwargs
-        kwargs = {'angle':0.0}
+        kwargs = {'angle': 0.0}
         if rotMinus:
             kwargs['angle'] = rotate_angle
         if rotPlus:
@@ -1080,8 +1076,8 @@ class ItemOptionsWindow(QtWidgets.QMainWindow):
             item.setText(controls[i])
             self.control_list.addItem(item)
 
-       # if controls:
-           # self.control_list.setCurrentRow(0)
+    # if controls:
+    # self.control_list.setCurrentRow(0)
 
     def edit_ctrl_name_event(self, item=None):
         '''Double click event on associated ctrls list
@@ -1507,7 +1503,7 @@ class PointHandle(DefaultPolygon):
                                                  self.size / 2.0),
                                   QtCore.QPointF(self.size / 2.0,
                                                  -self.size / 2.0))
-       # path.addRect(rectangle)
+        # path.addRect(rectangle)
         path.addEllipse(rectangle)
         return path
 
@@ -1999,7 +1995,7 @@ class PickerItem(DefaultPolygon):
                 if self in self.currently_selected:
                     self.currently_selected.remove(self)
                 [item.get_delta_from_point(event.scenePos()) for item in
-                    self.currently_selected]
+                 self.currently_selected]
             return DefaultPolygon.mousePressEvent(self, event)
 
         # Run selection on left mouse button event
@@ -2265,6 +2261,7 @@ class PickerItem(DefaultPolygon):
             def custom_eval(*args, **kwargs):
                 python_handlers.safe_code_exec(cmd,
                                                env=self.get_exec_env())
+
             return custom_eval
 
         # Get active controls custom menus

@@ -10,19 +10,15 @@ import platform
 # dcc
 import maya.cmds as cmds
 
-# mgear
-from mgear.vendor.Qt import QtGui
-from mgear.vendor.Qt import QtCore
-from mgear.vendor.Qt import QtWidgets
-
-# debugging
-# from PySide2 import QtGui
-# from PySide2 import QtCore
-# from PySide2 import QtWidgets
+# Qt
+from PySide2 import QtGui
+from PySide2 import QtCore
+from PySide2 import QtWidgets
 
 # module
-from mgear.core import pyqt
-from mgear.anim_picker.handlers import __EDIT_MODE__
+import anim_picker.core.pyqt as pyqt
+from anim_picker.handlers import __EDIT_MODE__
+
 
 # Some platforms have issue with OpenGl and PySide2-2.0.0.alpha
 platform_name = platform.system()

@@ -5,8 +5,8 @@ from __future__ import unicode_literals
 
 
 class EditMode(object):
-    '''UI edition status mode handler
-    '''
+    """UI edition status mode handler
+    """
 
     def __init__(self, status=False):
         self.main_status = status

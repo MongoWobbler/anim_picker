@@ -34,5 +34,5 @@ That should load the picker node, you have a character selector at the top to na
 Some controls have custom right click context menus too, if specified in the picker or custom click action.
 By default the click action should select any associated controls relative to the clicked picker item.
 
-Anjoy,
+Enjoy,
 Guillaume

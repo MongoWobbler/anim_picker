@@ -10,8 +10,8 @@ from maya import OpenMaya
 
 
 def get_flattened_nodes(nodes):
-    '''Will 'flatten' sets to get all nodes
-    '''
+    """Will 'flatten' sets to get all nodes
+    """
     # Init results
     results = []
 
@@ -40,8 +40,8 @@ def get_flattened_nodes(nodes):
 
 
 def select_nodes(nodes, namespace=None, modifier=None):
-    '''Select maya node handler with specific modifier behavior
-    '''
+    """Select maya node handler with specific modifier behavior
+    """
     # Parse nodes
     filtered_nodes = []
     for node in nodes:

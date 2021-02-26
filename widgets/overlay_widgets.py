@@ -9,20 +9,16 @@ import os
 # dcc
 import maya.cmds as cmds
 
-# mgear
-from mgear.vendor.Qt import QtGui
-from mgear.vendor.Qt import QtCore
-from mgear.vendor.Qt import QtWidgets
-
-# debugging
-# from PySide2 import QtGui
-# from PySide2 import QtCore
-# from PySide2 import QtWidgets
+# Qt
+from PySide2 import QtGui
+from PySide2 import QtCore
+from PySide2 import QtWidgets
 
 # module
-from mgear.anim_picker import picker_node
-from mgear.anim_picker.widgets import basic
-from mgear.anim_picker.handlers import file_handlers
+import anim_picker.core.picker_node as picker_node
+import anim_picker.handlers.file_handlers as file_handlers
+import anim_picker.widgets.basic as basic
+
 
 # constants -------------------------------------------------------------------
 try:

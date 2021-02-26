@@ -8,10 +8,10 @@ import os
 import json
 import functools
 
-from mgear.core import pyqt
-from mgear.vendor.Qt import QtWidgets
+import anim_picker.core.pyqt as pyqt
+from PySide2 import QtWidgets
 
-from mgear.anim_picker.widgets import basic
+import anim_picker.widgets.basic as basic
 
 ANIM_PICKER_VAR = "ANIM_PICKER_PATH"
 
