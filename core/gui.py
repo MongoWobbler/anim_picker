@@ -1398,10 +1398,10 @@ class MainDockWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
         '''
         self.resize(self.default_width, self.default_height)
 
-    def toggle_character_selector(self, checked):
+    def toggle_character_selector(self):
         """Toggle the visibility of the character select widget
         """
-        if checked:
+        if self.box.isChecked():
             self.char_select_widget.show()
         else:
             self.char_select_widget.hide()
@@ -1410,20 +1410,20 @@ class MainDockWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
         '''Add Character comboBox selector
         '''
         # Create group box
-        box = QtWidgets.QGroupBox("Character Selector")
+        self.box = QtWidgets.QGroupBox("Character Selector")
         bg_color = self.palette().color(QtGui.QPalette.Window).getRgb()
         cc_style_sheet = GROUPBOX_BG_CSS.format(color=bg_color)
-        box.setStyleSheet(cc_style_sheet)
-        box.setContentsMargins(0, 0, 0, 0)
-        box.setMinimumHeight(0)
-        box.setMaximumHeight(pyqt.dpi_scale(80))
-        box.setCheckable(True)
-        box.setChecked(True)
-        box.clicked.connect(self.toggle_character_selector)
+        self.box.setStyleSheet(cc_style_sheet)
+        self.box.setContentsMargins(0, 0, 0, 0)
+        self.box.setMinimumHeight(0)
+        self.box.setMaximumHeight(pyqt.dpi_scale(80))
+        self.box.setCheckable(True)
+        self.box.setChecked(False)
+        self.box.clicked.connect(self.toggle_character_selector)
 
         self.char_select_widget = QtWidgets.QWidget()
         self.char_select_widget.setContentsMargins(0, 5, 0, 0)
-        tmp_layout = QtWidgets.QHBoxLayout(box)
+        tmp_layout = QtWidgets.QHBoxLayout(self.box)
         tmp_layout.setSpacing(0)
         tmp_layout.addWidget(self.char_select_widget)
 
@@ -1495,7 +1495,9 @@ class MainDockWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
             self.save_char_btn.setFixedWidth(pyqt.dpi_scale(40))
 
             btns_layout.addWidget(self.save_char_btn)
-        self.main_vertical_layout.addWidget(box)
+
+        self.main_vertical_layout.addWidget(self.box)
+        self.toggle_character_selector()
 
     def add_tab_widget(self, name="default"):
         '''Add control display field
@@ -1606,6 +1608,8 @@ class MainDockWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
         self.save_widget.resize(size)
 
         self.load_widget.resize(size)
+
+        # self.expander.resize(size)
 
         return super(MainDockWindow, self).resizeEvent(event)
 
@@ -1903,7 +1907,7 @@ class MainDockWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
 # =============================================================================
 # Load user interface function
 # =============================================================================
-def load(edit=False, dockable=True):
+def load(edit=False, dockable=None):
     """To launch the ui and not get the same instance
 
     Returns:
@@ -1921,6 +1925,11 @@ def load(edit=False, dockable=True):
     #         ANIM_PKR_UI.deleteLater()
     #     except Exception:
     #         pass
+
+    is_shift_held = False if pm.about(batch=True) else (pm.getModifiers() & 1) > 0
+    dockable = not is_shift_held if dockable is None else dockable
+    dockable = False if edit else dockable
+
     ANIM_PKR_UI = MainDockWindow(parent=None,
                                  edit=edit,
                                  dockable=dockable)
@@ -1929,7 +1938,7 @@ def load(edit=False, dockable=True):
     # parented to Maya UI
     # TODO: Dockable breaks the interface when docks. For the moment this
     # option is not available from the menu
-    dockable = False if edit else dockable  # only breaks when editing
+
     if dockable:
         ANIM_PKR_UI.show(dockable=True)
     else:
